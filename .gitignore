@@ -1,0 +1,10 @@
+node_modules/
+.env
+dist/
+build/
+.cache/
+tmp/
+packages/blockchain/artifacts/
+packages/blockchain/cache/
+packages/blockchain/typechain-types/
+apps/backend/tmp/

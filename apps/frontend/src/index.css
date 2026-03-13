@@ -1,0 +1,60 @@
+:root {
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  color: #101217;
+  background: #f7f4ee;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.app {
+  min-height: 100vh;
+  padding: 32px;
+  background: linear-gradient(180deg, #f7f4ee 0%, #f0efe8 100%);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.brand {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.nav {
+  display: flex;
+  gap: 12px;
+}
+
+.nav button {
+  border: 1px solid #1a1d24;
+  background: transparent;
+  color: #1a1d24;
+  padding: 8px 14px;
+  cursor: pointer;
+}
+
+.nav button.active {
+  background: #1a1d24;
+  color: #f7f4ee;
+}
+
+.card {
+  background: #ffffff;
+  border: 1px solid #e4e0d5;
+  padding: 20px;
+  margin-bottom: 18px;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(16, 18, 23, 0.08);
+}

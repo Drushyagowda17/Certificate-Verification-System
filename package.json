@@ -1,0 +1,15 @@
+{
+  "name": "certificate-verification",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/frontend",
+    "apps/backend",
+    "packages/blockchain"
+  ],
+  "scripts": {
+    "dev:backend": "cd apps/backend && npm run dev",
+    "dev:frontend": "cd apps/frontend && npm run dev",
+    "deploy:contract": "cd packages/blockchain && npm run deploy"
+  }
+}

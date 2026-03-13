@@ -1,0 +1,10 @@
+{
+  "name": "yes",
+  "version": "1.0.0",
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^22.19.11",
+    "hardhat": "^3.1.9",
+    "typescript": "~5.8.0"
+  }
+}

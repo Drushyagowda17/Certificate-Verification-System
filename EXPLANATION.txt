@@ -1,0 +1,109 @@
+Certificate Verification System - Explanation
+
+Overview
+This project is a minimal blockchain-based certificate verification system.
+It has three main parts:
+1) Smart contract (Solidity + Hardhat) deployed on Polygon Amoy testnet.
+2) Backend API (Node.js + Express) that hashes files, writes to blockchain, and stores metadata in MongoDB.
+3) Frontend (React + Vite) that lets admins issue certificates and anyone verify them.
+
+Project Structure
+cert-verify-system/
+- apps/
+  - backend/       Express API + MongoDB
+  - frontend/      React UI (Vite)
+- packages/
+  - blockchain/    Hardhat + Solidity contract
+- shared/          ABI + shared constants
+
+How the Smart Contract Works (packages/blockchain/contracts/Certificate.sol)
+- The contract stores a mapping from certificateId (string) to a certificate hash (bytes32).
+- Only the admin (the deployer address) can call issueCertificate.
+- Anyone can call verifyCertificate to check if a hash matches the stored one.
+- The contract emits CertificateIssued events for each issuance.
+
+Key Contract Functions
+- issueCertificate(certificateId, hash): Stores the SHA256 hash for that ID.
+- verifyCertificate(certificateId, hash): Returns true if hashes match.
+- getCertificateHash(certificateId): Returns the stored hash (optional helper).
+
+How the Backend Works (apps/backend/src)
+- Routes:
+  - POST /api/issue
+    - Upload certificate file + metadata.
+    - Hashes file using SHA256.
+    - Calls contract issueCertificate using Ethers.js.
+    - Saves metadata + txHash to MongoDB.
+  - POST /api/verify
+    - Upload certificate file + certificateId.
+    - Hashes file using SHA256.
+    - Calls contract verifyCertificate to check validity.
+    - Returns result and saved metadata (if exists).
+
+Important Backend Files
+- src/services/blockchainService.js
+  - Reads ABI from shared/CertificateABI.json
+  - Uses RPC_URL + PRIVATE_KEY to create wallet
+  - Calls issueCertificate and verifyCertificate on-chain
+- src/services/hashService.js
+  - Hashes file buffer with SHA256
+- src/models/Certificate.js
+  - MongoDB schema for certificate metadata
+- src/controllers/certificateController.js
+  - Orchestrates hashing, blockchain call, and DB save
+
+How the Frontend Works (apps/frontend/src)
+- AdminPanel.jsx
+  - Connects MetaMask
+  - Uploads certificate + metadata to /api/issue
+  - Shows transaction hash after issuing
+- VerifyPage.jsx
+  - Uploads certificate + certificateId to /api/verify
+  - Displays VALID/INVALID and metadata
+
+What You Need To Do Next
+1) Deploy the Smart Contract
+   - Go to packages/blockchain
+   - Create a .env file from .env.example
+   - Set AMOY_RPC_URL and DEPLOYER_PRIVATE_KEY
+   - Run:
+     - npm install
+     - npm run compile
+     - npm run deploy:amoy
+   - Copy the deployed contract address.
+
+2) Configure Shared Contract Address
+   - Update shared/constants.js with the deployed address.
+
+3) Configure Backend
+   - Go to apps/backend
+   - Create a .env file from .env.example
+   - Set:
+     - MONGODB_URI (MongoDB Atlas connection string)
+     - RPC_URL (Polygon Amoy RPC)
+     - PRIVATE_KEY (admin wallet private key)
+     - CONTRACT_ADDRESS (deployed address)
+   - Run:
+     - npm install
+     - npm run dev
+
+4) Configure Frontend
+   - Go to apps/frontend
+   - Create a .env file from .env.example
+   - Set:
+     - VITE_API_BASE_URL (backend URL)
+     - VITE_CONTRACT_ADDRESS (same deployed address)
+     - VITE_CHAIN_ID (80002)
+   - Run:
+     - npm install
+     - npm run dev
+
+5) Test the Flow
+   - Open frontend
+   - Admin issues a certificate (file + metadata)
+   - Verify with the same file + certificateId
+
+Notes
+- Only the SHA256 hash is stored on-chain (no file data).
+- This is intentionally simple for a college project.
+- No IPFS and no advanced security features.
