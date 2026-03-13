@@ -2,6 +2,9 @@
 
   A full-stack application for issuing and verifying digital certificates using the Polygon blockchain.
 
+  Download the project or clone the repo :
+  git clone https://github.com/Drushyagowda17/Certificate-Verification-System.git
+
   ## Architecture
 
   ```
