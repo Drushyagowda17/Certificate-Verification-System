@@ -180,7 +180,4 @@
   PRIVATE_KEY=your_wallet_private_key
   RPC_URL=https://rpc-amoy.polygon.technology
   ```
-# Certification-Verification-System
-# Certification-Verification-System
-# Certificate-Verification-System
-# Certificate-Verification-System
+
